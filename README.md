@@ -1,99 +1,114 @@
----
+
+
+
 
 ```markdown
 # 🧠 ResNet-50 + YOLOv3 Object Detection  
-> Internship Assignment – Full Object Detection Pipeline on Pascal VOC
+> **AI Internship Assignment — Object Detection Pipeline with ResNet + YOLOv3**
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![Python](https://img.shields.io/badge/python-3.8+-blue)
 ![PyTorch](https://img.shields.io/badge/framework-PyTorch-red)
 ![Status](https://img.shields.io/badge/status-Prototype-yellow)
 
 ---
 
-## 🔍 Project Overview
+## 🔍 Overview
 
-This project implements an object detection pipeline using a custom YOLOv3-style detector with a **ResNet-50** backbone. It is trained and evaluated on the **Pascal VOC 2007** dataset.
+This repository implements a YOLOv3-style object detector using a **ResNet-50** backbone.  
+It is trained and evaluated on the **Pascal VOC 2007** dataset.
 
-🎯 Developed as part of an AI internship assignment:
-- ✅ End-to-end training pipeline  
-- ✅ YOLO-style head and anchor setup  
-- ✅ Inference with GT/prediction overlays  
-- ✅ COCO-style mAP evaluation  
-- ✅ Results saved in structured outputs  
-- ✅ Documentation included  
+✅ Key Features:
+
+- End-to-end training and evaluation pipeline  
+- Custom YOLO-style head with anchors  
+- Inference with ground truth + prediction overlays  
+- COCO-style mAP evaluation  
+- Runs in Colab or locally with PyTorch  
+- Includes full report & requirements  
 
 ---
 
-## 🗂️ Project Structure
+## 📁 Project Structure
 
 ```
 
 resnet50-yolov3-detector/
-│
-├── data/                    ← Pascal VOC dataset
-├── models/                  ← Trained checkpoints (.pth)
+├── data/                    ← VOC 2007 dataset
+├── models/                  ← Trained model checkpoints
 ├── notebooks/
-│   ├── train.ipynb          ← Model training
+│   ├── train.ipynb          ← Training notebook
 │   └── inference.ipynb      ← Evaluation + visualization
 ├── outputs/
-│   ├── inference/           ← Output PNGs (GT & predictions)
-│   └── metrics.csv          ← Evaluation scores (COCO mAP)
+│   ├── inference/           ← Saved PNG overlays
+│   └── metrics.csv          ← COCO mAP evaluation results
 ├── report/
-│   └── assignment-report.pdf← Internship report document
+│   └── assignment-report.pdf← Final submission document
 ├── requirements.txt         ← Python dependencies
-├── README.md
-└── .gitignore
+└── README.md
 
 ````
 
 ---
 
-## 🚀 Setup & Run
+## 🚀 Getting Started
 
-### 🔧 Install Requirements
+<details>
+<summary><strong>📦 Setup & Install</strong></summary>
 
 ```bash
+# Clone repo
+git clone https://github.com/tejash-300/resnet50-yolov3-detector.git
+cd resnet50-yolov3-detector
+
+# Install dependencies
 pip install -r requirements.txt
 ````
 
-Or launch the notebooks directly in [Google Colab](https://colab.research.google.com/).
+</details>
 
----
+<details>
+<summary><strong>📥 Download Pascal VOC Dataset</strong></summary>
 
-### 📦 Dataset
-
-The Pascal VOC 2007 dataset is auto-downloaded via PyTorch:
+Dataset is auto-downloaded in the notebook using torchvision:
 
 ```python
 from torchvision.datasets import VOCDetection
+
+# Train/val split
 VOCDetection(root='data/VOCdevkit', year='2007', image_set='trainval', download=True)
+
+# Test split
 VOCDetection(root='data/VOCdevkit', year='2007', image_set='test', download=True)
 ```
+
+</details>
 
 ---
 
 ## 🏋️‍♂️ Model Training
 
-Run `notebooks/train.ipynb`:
+Open `notebooks/train.ipynb` and run:
 
-* Loads ResNet-50 backbone
-* Adds YOLOv3 detection head
-* Trains on VOC 2007 `trainval` set
-* Saves `.pth` model checkpoints under `models/`
+* Initializes ResNet-50 as backbone
+* Adds YOLOv3 multi-scale detection head
+* Uses SGD optimizer with StepLR
+* Trains for `12` epochs
+* Saves `.pth` checkpoints in `models/`
 
-Training parameters are configured in `Config` (e.g., `img_size`, `batch_size`, `epochs=12`).
+📌 You can modify `Config` to adjust epochs, image size, learning rate, etc.
 
 ---
 
-## 🎯 Inference & Evaluation
+## 🧪 Inference & Evaluation
 
-Run `notebooks/inference.ipynb`:
+Open `notebooks/inference.ipynb`:
 
-* Loads saved checkpoint
+* Loads trained model checkpoint
 * Runs inference on VOC test images
-* Saves overlaid images to `outputs/inference/`
-* Evaluates with COCO API (AP, AR)
-* Saves scores to `outputs/metrics.csv`
+* Overlays red prediction boxes & green GT boxes
+* Saves visual outputs to `outputs/inference/`
+* Evaluates using `pycocotools` (COCO API)
+* mAP results are saved to `outputs/metrics.csv`
 
 ---
 
@@ -110,23 +125,23 @@ Run `notebooks/inference.ipynb`:
   </tr>
 </table>
 
-This prototype model was trained for **12 epochs** on Pascal VOC using a custom YOLOv3 head and ResNet-50 backbone.
+This prototype model was trained for **12 epochs** using Pascal VOC data.
 
-✅ It demonstrates a fully functional object detection pipeline:
+✔️ The system demonstrates the full detection workflow:
 
-* Prediction, decoding, and visualization
-* Ground truth overlays for visual inspection
-* mAP evaluation using COCO API
+* Input → Prediction → Decoding → Overlay → Evaluation
+* Ground truth is used for validation and visualization
+* Results show a functioning pipeline under limited compute
 
-📈 Further training (e.g., 50+ epochs with better anchor handling) is expected to significantly improve performance.
+📌 Future training (e.g. 50+ epochs, CIoU loss, anchor assignment) will improve mAP.
 
 ---
 
 ## 📄 Documentation
 
 * 📘 **Assignment Report**: [`report/assignment-report.pdf`](report/assignment-report.pdf)
-* 📦 **Requirements File**: [`requirements.txt`](requirements.txt)
-* ✅ In-notebook markdown cells explain each step clearly
+* 📦 **Dependencies**: [`requirements.txt`](requirements.txt)
+* 🧠 **Code Walkthrough**: Inside Colab notebooks via markdown cells
 
 ---
 
@@ -134,21 +149,23 @@ This prototype model was trained for **12 epochs** on Pascal VOC using a custom 
 
 **Tejash Pandey**
 GitHub: [@tejash-300](https://github.com/tejash-300)
-AI Internship — 2025
+*This project was developed as part of an AI internship assignment in 2025.*
 
 ---
 
-## 🔧 Future Work
+## 🔧 Future Enhancements
 
-* [ ] Add anchor-to-GT assignment logic
-* [ ] Switch to CIoU/GIoU loss
-* [ ] Train for 50+ epochs
-* [ ] Add video or GIF demo from inference images
+* [ ] Anchor-to-GT assignment (for better supervision)
+* [ ] Switch to CIoU/GIoU loss for improved localization
+* [ ] Train for 50+ epochs and unfreeze ResNet backbone
+* [ ] Add video/GIF-based demo from inference PNGs
+* [ ] Upload model demo on Hugging Face or Gradio
 
 ```
 
 ---
 
+This version is clean, GitHub-friendly, and presentation-ready. You can save it as `README.md` at the root of your repo.
 
+Let me know if you want a `requirements.txt` file or badges like `Colab`, `License`, or `Model Card`.
 ```
-
