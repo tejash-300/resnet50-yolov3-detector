@@ -33,14 +33,14 @@ It is trained and evaluated on the **Pascal VOC 2007** dataset.
 ```
 
 resnet50-yolov3-detector/
-├── data/                    ← VOC 2007 dataset
-├── models/                  ← Trained model checkpoints
+├── data/                    ← Pascal VOC dataset
+├── models/                  ← Trained model checkpoints (.pth)
 ├── notebooks/
-│   ├── train.ipynb          ← Training notebook
+│   ├── train.ipynb          ← Model training
 │   └── inference.ipynb      ← Evaluation + visualization
 ├── outputs/
-│   ├── inference/           ← Saved PNG overlays
-│   └── metrics.csv          ← COCO mAP evaluation results
+│   ├── inference/           ← Output PNGs (GT & predictions)
+│   └── metrics.csv          ← Evaluation scores (COCO mAP)
 ├── report/
 │   └── assignment-report.pdf← Final submission document
 ├── requirements.txt         ← Python dependencies
@@ -165,7 +165,5 @@ GitHub: [@tejash-300](https://github.com/tejash-300)
 
 ---
 
-This version is clean, GitHub-friendly, and presentation-ready. You can save it as `README.md` at the root of your repo.
 
-Let me know if you want a `requirements.txt` file or badges like `Colab`, `License`, or `Model Card`.
 ```
